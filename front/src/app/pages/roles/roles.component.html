@@ -1,0 +1,59 @@
+<div class="container mx-auto p-4">
+    <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold">Roles</h1>
+        <button (click)="openAddModal()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Agregar Rol
+        </button>
+    </div>
+
+    <table class="table-auto w-full mt-4">
+        <thead>
+            <tr class="bg-gray-200">
+                <th class="px-4 py-2">#</th>
+                <th class="px-4 py-2">Nombre</th>
+                <th class="px-4 py-2">Activo</th>
+                <th class="px-4 py-2">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let role of roles; let i = index" class="border-b">
+                <td class="px-4 py-2">{{ i + 1 }}</td>
+                <td class="px-4 py-2">{{ role.name }}</td>
+                <td class="px-4 py-2">{{ role.active ? 'Sí' : 'No' }}</td>
+                <td class="px-4 py-2">
+                <button (click)="openEditModal(role)" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-700">
+                    Editar
+                </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div *ngIf="isModalOpen" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white p-6 rounded shadow-lg w-96">
+            <h2 class="text-xl font-bold mb-4">{{ isEditing ? 'Editar Rol' : 'Agregar Rol' }}</h2>
+            <form (submit)="isEditing ? updateRole() : addRole()">
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700">Nombre</label>
+                    <input type="text" id="name" [(ngModel)]="selectedRole.name" name="name" required class="w-full p-2 border rounded">
+                </div>
+                <div class="mb-4" *ngIf="isEditing">
+                    <label for="active" class="block text-gray-700">Activo</label>
+                    <select id="active" [(ngModel)]="selectedRole.active" name="active" class="w-full p-2 border rounded">
+                        <option [ngValue]="true">Sí</option>
+                        <option [ngValue]="false">No</option>
+                    </select>
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" (click)="closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded mr-2 hover:bg-gray-700">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        {{ isEditing ? 'Actualizar' : 'Agregar' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+  
